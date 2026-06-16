@@ -7,27 +7,32 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: MostashOverlayDemo
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
-      - name: Install Theos
-        run: |
-          git clone --recursive https://github.com/theos/theos.git $HOME/theos
-          echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+      - name: Prepare Theos
+        uses: Randomblock1/theos-action@v1
 
       - name: Build package
         run: |
-          export THEOS=$HOME/theos
+          rm -rf packages
+          mkdir -p packages
           make package FINALPACKAGE=1
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mostash-overlay-demo-packages
+          name: mostash-overlay-demo
           path: |
-            packages/*.deb
-            .theos/obj/debug/*.dylib
+            MostashOverlayDemo/packages/*.deb
+            MostashOverlayDemo/.theos/**/*.dylib
           if-no-files-found: warn
