@@ -1,0 +1,9 @@
+Package: com.mostash.overlaydemo
+Name: Mostash Overlay Demo
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Safe educational floating overlay dylib demo for owned test environments only.
+Maintainer: Mostash
+Author: Mostash
+Section: Tweaks
+Depends: mobilesubstrate
